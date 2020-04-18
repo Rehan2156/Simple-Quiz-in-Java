@@ -1,10 +1,13 @@
 package quizPackage;
 import java.util.*;
 
+
 public class Solution {
 	
 	List<Layout> quesSet = new LinkedList<>();
 	Map<Integer,String> ansMap = new HashMap<>();
+	static Map<Integer,String> rank = new HashMap<>();
+
 	static Scanner sc = new Scanner(System.in);
 	int score =0 ;
 	int rollNo;
@@ -15,7 +18,7 @@ public class Solution {
 	void add(final int quesNo,final String ques,final String opa,final String opb,final String opc,final String opd,final String ans)
 	{
 	
-	final Layout q = new Layout();
+	Layout q = new Layout();
 	q.setQuesNo(quesNo);
 	q.setQues(ques);
 	final List<String> opt = new ArrayList<String>();
@@ -201,49 +204,49 @@ public class Solution {
 	}
 	
 	
+	
+	static void sortByKeys(){
+		
+		ArrayList<Integer> mapKeys = new ArrayList<>(rank.keySet());
+		
+		Collections.sort(mapKeys,Collections.reverseOrder());
+		int ranK=1;
+		System.out.println("\n******* RESULTS *******\n");
+		System.out.println("RANK     NAME     SCORE");
+		for(Integer i : mapKeys)
+		{
+			System.out.println((ranK++)+"        "+rank.get(i)+"       "+i);
+		}
+		
+	}
+	
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Solution[] obj = new Solution[6];
-		int n=0;
+		Solution obj = new Solution();
 		char ans;
 		do
 		{
-			obj[n] = new Solution();
+			obj = new Solution();
 			System.out.println("\n******* LOGIN *******");
 			System.out.println("Roll No.=");
-			obj[n].rollNo=sc.nextInt();
+			obj.rollNo=sc.nextInt();
 			System.out.println("\nName=");
-			obj[n].name=sc.next();
+			obj.name=sc.next();
 			System.out.println("******* QUIZ STARTS *******\n");
-			obj[n].makeQues();
-			obj[n].printOnScreen();
-			System.out.println("\n YOUR SCORE IS : "+obj[n].score);
+			obj.makeQues();
+			obj.printOnScreen();
+			System.out.println("\n YOUR SCORE IS : "+obj.score);
+			rank.put(obj.score,obj.name);
 			System.out.println("\n******* THANK YOU *******");
-			System.out.println("Do you want to give the test again?");
+			System.out.println("Next student ? y/n");
 			ans=sc.next().charAt(0);
-			n++;
 		}
 		while(ans=='y');
-
-		Solution temp=new Solution();
-
-		for(int j=0; j<n; j++)					//Sorts the objects according to score in descending
-		{							//order
-			for(int k=j+1; j<n; j++)
-			{
-				if(obj[j].score<obj[k].score)
-				{
-					temp=obj[j];
-					obj[j]=obj[k];
-					obj[k]=temp;
-				}
-			}
-		}
-		System.out.println("\n******* RESULTS *******\n");
-		for(int j=1; j<=n; j++)
-		{
-			System.out.println(j+"\t"+obj[j-1].rollNo+"\t"+obj[j-1].name+"\t"+obj[j-1].score);
-		}
+		
+		
+		sortByKeys();
+		
 		sc.close();
 	}
 
